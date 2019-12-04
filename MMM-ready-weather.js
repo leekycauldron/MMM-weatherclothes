@@ -5,7 +5,8 @@ Module.register("MMM-ready-weather", {
     defaults: {
         api_key: "", // Get FREE API key from darksky.net (check documentation for api key link)
         lat: "40.123456", // Latitude 
-        long: "-74.123456" // Longitude
+        long: "-74.123456", // Longitude
+	cof: "C"    //choose C (celsius) or F (farenheit) in capitals 
 },
 
 	//main mod loop
@@ -32,8 +33,19 @@ Module.register("MMM-ready-weather", {
     		.then(data => {
 			//current temperature
         		const temperature = data.currently.temperature;
-			//temperature output in degrees celsius
-        		weatherOut.innerHTML = Math.round((temperature - 32) * (5/9)) + "ºC";
+			//temperature output in degrees celsius/ farenheit
+			if(this.config.cof === "C"){
+				weatherOut.innerHTML = Math.round((temperature - 32) * (5/9)) + "ºC";
+			}
+			
+			else if(this.config.cof === "F"){
+				weatherOut.innerHTML = Math.round(temperature) + "ºF";
+			}
+			
+			else{
+				weatherOut.innerHTML = "Invalid input in setting: 'cof'. Please Enter C (celsius) or F (farenheit).";
+			}
+        		
 			
 			//switch case for the temperature
 			switch(temperature){
