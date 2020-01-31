@@ -76,6 +76,8 @@ Module.register("MMM-weatherclothes", {
 	
 			}
 
+			window.pp = precipprob * 100;
+
 			if(window.weather <= 0){
 				window.temp = "Wear a jacket. It is freezing outside!";
 			}
