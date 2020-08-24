@@ -4,7 +4,7 @@ Module.register("MMM-weatherclothes", {
         lat: "43.8877171",
         long: "-79.3014735",
 		cof: "C",    
-		refreshRate: 1800 //Format in seconds i.e. 1 second = 1.
+		refreshRate: 300000 
 },
 
 
@@ -17,7 +17,7 @@ Module.register("MMM-weatherclothes", {
 
 	//Refreshes the module every x minutes.
 	start: function() {
-		var timeFormat = this.config.refreshRate * 1000;
+		var timeFormat = this.config.refreshRate;
 		console.log(`Starting Module: ${this.name}`)
 		var self = this;
 		setInterval( function(){
@@ -82,7 +82,7 @@ Module.register("MMM-weatherclothes", {
 
 			//Check if there is snow/rain scheduled for the day.
 			hourly.toLowerCase();
-			window.summary = hourly;
+			window.summary = hourly + "</p>";
 			if(hourly.includes("snow")){
 				clothing.push("hat");
 				clothing.push("wjacket");
@@ -106,7 +106,7 @@ Module.register("MMM-weatherclothes", {
 			/************************************************************************************************************************************************************************ */
 			//Check the current temperature.
 			if(window.weather <= -15){
-				window.temp ="It's so cold! Wear a heavy jacket, scarf, hat, gloves or stay inside!";
+				window.temp ="<p>It's extremely <span style='color:aqua;'>cold!</span> Wear a heavy jacket, scarf, hat, gloves or stay inside!";
 				if(tempDep){
 					clothing.push("hat");
 					clothing.push("wjacket");
@@ -118,7 +118,7 @@ Module.register("MMM-weatherclothes", {
 			}
 			
 			if(window.weather <= 0  && window.weather > -15){
-				window.temp = "Wear a jacket. It is freezing outside!";
+				window.temp = "<p>Wear a jacket. It is <span style='color:aqua;'>freezing</span> outside!";
 				if(tempDep){
 					clothing.push("hat");
 					clothing.push("wjacket");
@@ -129,7 +129,7 @@ Module.register("MMM-weatherclothes", {
 			}
 
 			else if(window.weather > 0 && window.weather <= 10){
-				window.temp = "I suggest you wear a sweater. It is a little bit chilly.";
+				window.temp = "<p>I suggest you wear a sweater. It is a little bit <span style='color:grey;'>chilly.</span>";
 				if(tempDep){
 					clothing.push("wjacket");
 					clothing.push("slacks");
@@ -138,7 +138,7 @@ Module.register("MMM-weatherclothes", {
 			}
 
 			else if(window.weather > 10 && window.weather <= 20){
-				window.temp = "It is not too cold but maybe wear a light hoodie.";
+				window.temp = "<p>It is not too <span style='color:aqua;'>cold</span> but maybe wear a light hoodie.";
 				if(tempDep){
 					clothing.push("hoodie");
 					clothing.push("tshirt");
@@ -148,7 +148,7 @@ Module.register("MMM-weatherclothes", {
 			}
 
 			else if(window.weather > 20 && window.weather <= 30){
-				window.temp = "It is warm. I suggest going out with a t-shirt and shorts.";
+				window.temp = "<p>It is <span style='color:orange;'>warm.</span> I suggest going out with a t-shirt and shorts.";
 				if(tempDep){
 					clothing.push("tshirt");
 					clothing.push("shorts");
@@ -157,7 +157,7 @@ Module.register("MMM-weatherclothes", {
 			}
 
 			else if(window.weather > 30){
-				window.temp = "It's really hot! A t-shirt, shorts should do and don't forget the sunscreen!";
+				window.temp = "<p>It's really <span style='color:red;'>hot!</span> A t-shirt, shorts should do and don't forget the sunscreen!";
 				if(tempDep){
 					clothing.push("tshirt");
 					clothing.push("shorts");
@@ -172,7 +172,7 @@ Module.register("MMM-weatherclothes", {
 				window.imgs += `<img src="modules/MMM-weatherclothes/images/${clothing[i]}.png" height="100" width="100"/>`;
 			}
 			//Combine all the text into one variable.
-			let text = "<p style='font-size:25px; text-align:left;'>Your Clothing Recommendations</p> <hr> " + window.temp + " " + window.summary + "<br> " + window.imgs + "<br>Last Updated: " + time;
+			let text = "<p style='font-size:25px; text-align:right;'>Your Daily Clothing Recommendations</p> <hr> " + window.temp + " " + window.summary + "<br> " + window.imgs;
 			
 			wrapper.innerHTML = text;
 		});
